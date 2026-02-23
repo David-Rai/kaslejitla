@@ -1,15 +1,15 @@
 import React, { useRef } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import supabase from "../config/supabase";
+import { server_url } from "../config/server_url";
+import { useSocket } from "./socketContext";
 
 export const CandidateContext = createContext();
 
 export const CandidateProvider = ({ children }) => {
   const [candidates, setCandidates] = useState([]);
+  const socket = useSocket();
   const channelRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const server_url = import.meta.env.VITE_SERVER_URL;
-  console.log("server url", server_url);
 
   //Fetching initial candidates
   const fetchCandidates = async () => {
@@ -27,35 +27,25 @@ export const CandidateProvider = ({ children }) => {
 
   useEffect(() => {
     fetchCandidates();
-    channelRef.current = supabase.channel("real-channel");
+  }, []);
 
-    channelRef.current.subscribe((status) => {
-      // console.log("Channel status:", status); // will show SUBSCRIBED
+  //Socket handling
+  useEffect(() => {
+    if (!socket) return;
+
+    //Getting new vote
+    socket.on("new-vote", (payload) => {
+      console.log("payload got", payload);
+      const { id, new_vote_count } = payload;
+      setCandidates((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, vote_count:new_vote_count } : p)),
+      );
     });
 
-    function messageReceived(p) {
-      // console.log("boastcast payload", p);
-      const {
-        payload: { vote_count, id },
-      } = p;
-
-      if (!p || !p.payload) return;
-
-      setCandidates((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, vote_count: vote_count } : c)),
-      );
+    return ()=>{
+      socket.off('new-vote')
     }
-
-    // Listen for "new_vote". Can be "*" to listen to all events
-    channelRef.current.on("broadcast", { event: "new_vote" }, (payload) =>
-      messageReceived(payload),
-    );
-
-    return () => {
-      supabase.removeChannel(channel);
-      supabase.removeChannel(channelRef.current);
-    };
-  }, []);
+  }, [socket]);
 
   return (
     <CandidateContext.Provider

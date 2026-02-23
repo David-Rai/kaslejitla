@@ -8,5 +8,5 @@ export async function initialData() {
   votes.length = 0;       // clear existing array
   votes.push(...r.data);  // add new items
 
-  console.log("Votes initialized:", votes);
+  // console.log("Votes initialized:", votes);
 }

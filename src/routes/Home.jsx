@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { usePostHog } from "@posthog/react";
@@ -6,51 +6,12 @@ import { useCandidates } from "../context/candidatesContext";
 import Nav from "../components/Nav";
 import supabase from "../config/supabase";
 import "react-toastify/dist/ReactToastify.css";
+import { useSocket } from "../context/socketContext";
 
 const Home = () => {
   const posthog = usePostHog();
-  const { candidates, loading, channelRef, setCandidates } = useCandidates();
-  const [is_update_interval_started, setIsUpdateIntervalStarted] =
-    useState(false);
-  // const [my_updatesRef.current, setMyUpdates] = useState([]);
-  let update_interval = null;
-  const my_updatesRef = useRef([]);
-
-  // ======MAIN UPDATE DB FUNCTION===
-  const updateDB = async () => {
-    if (my_updatesRef.current.length === 0) {
-      clearInterval(update_interval);
-      setIsUpdateIntervalStarted(false);
-      return console.log("no updates so ending interval");
-    }
-
-    if (is_update_interval_started) return;
-
-    //starting the interval + update with interval duration
-    update_interval = setInterval(async () => {
-      if (my_updatesRef.current.length === 0) {
-        clearInterval(update_interval);
-        setIsUpdateIntervalStarted(false);
-        return console.log("no updates so ending interval");
-      }
-
-      // console.log("Updating the DB....", my_updatesRef.current);
-      // Update DB
-      await Promise.all(
-        my_updatesRef.current.map((u) =>
-          supabase
-            .from("votes")
-            .update({ vote_count: u.new_vote_count })
-            .eq("id", u.id),
-        ),
-      );
-
-      my_updatesRef.current = [];
-      // console.log("deleting all updates from local", my_updatesRef.current);
-    }, 5000);
-
-    setIsUpdateIntervalStarted(true);
-  };
+  const socket = useSocket();
+  const { candidates, loading, setCandidates } = useCandidates();
 
   // ===On click of vote now button===
   const handleClick = async (c) => {
@@ -58,45 +19,23 @@ const Home = () => {
 
     const new_vote_count = vote_count + 1;
 
-    //Updating my_updatesRef.current
-    if (my_updatesRef.current.length === 0) {
-      my_updatesRef.current.push({ id, new_vote_count });
-      // console.log("zero updates so adding first one", my_updatesRef.current);
-    } else {
-      // if exist update else add new{id,new_vote_count}
-      const index = my_updatesRef.current.findIndex((u) => u.id === id);
-      if (index === -1) {
-        // Candidate not in updates yet → add
-        my_updatesRef.current.push({ id, new_vote_count });
-      } else {
-        // Candidate already exists → update
-        my_updatesRef.current[index].new_vote_count = new_vote_count;
-      }
-      // console.log("already present update", my_updatesRef.current);
-    }
-
     //Increasing locally
     setCandidates((prev) =>
       prev.map((p) => (p.id === id ? { ...p, vote_count: new_vote_count } : p)),
     );
 
     // Broadcast new vote into server
-  
-    // channelRef.current.send({
-    //   type: "broadcast",
-    //   event: "new_vote",
-    //   payload: { id, vote_count: new_vote_count },
-    // });
+    socket.emit("increase-vote", { id,new_vote_count });
 
     posthog.capture("vote", { votefor: name });
-
-    updateDB();
   };
 
+  // asc order candidates
   const sorted_candidates = [...candidates].sort(
     (a, b) => b.vote_count - a.vote_count,
   );
 
+  // Maximum votes
   const maxVotes = sorted_candidates[0]?.vote_count || 1;
 
   if (loading) {
@@ -152,7 +91,8 @@ const Home = () => {
               fontWeight: 300,
             }}
           >
-            ⚠️ This is an unofficial public poll for entertainment purposes only.
+            ⚠️ This is an unofficial public poll for entertainment purposes
+            only.
           </p>
         </div>
 

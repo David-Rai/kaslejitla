@@ -6,8 +6,14 @@ export const handleSocket = (io) => {
 
     // Handle "increase-vote" event from client
     client.on("increase-vote", (payload) => {
+      const { id, new_vote_count } = payload;
+      const index = votes.findIndex((v) => v.id === id);
+      if (index !== -1) {
+        votes[index].vote_count = new_vote_count;
+      }
+
       console.log("payload from increase-vote event", payload);
-      // Broadcast updated leaderboard to all clients
+
       client.broadcast.emit("new-vote", payload);
     });
   });

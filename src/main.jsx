@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import About from "./routes/About";
 import { CandidateProvider } from "./context/candidatesContext";
 import "./index.css";
+import { SocketProvider } from "./context/socketContext";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import Home from "./routes/Home";
 import { PostHogProvider } from "@posthog/react";
@@ -31,13 +32,14 @@ const options = {
 };
 
 createRoot(document.getElementById("root")).render(
-  <CandidateProvider>
+<SocketProvider>
+    <CandidateProvider>
     <PostHogProvider
       apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
       options={options}
     >
       <RouterProvider router={router} />
     </PostHogProvider>
-    ,
-  </CandidateProvider>,
+  </CandidateProvider>
+</SocketProvider>
 );
