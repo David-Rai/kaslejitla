@@ -130,7 +130,7 @@ const Home = () => {
               <div
                 key={candidate.id}
                 onClick={() => handleClick(candidate)}
-                className="candidate-card"
+                className="candidate-card select-none"
               >
                 <div className={`vote-bar`} style={{ width: `${barWidth}%` }} />
                 <span className={`rank-badge ${rankClass}`}>{rankLabel}</span>
