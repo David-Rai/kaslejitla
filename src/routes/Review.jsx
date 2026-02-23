@@ -32,8 +32,6 @@ const Review = () => {
           background: "linear-gradient(160deg, #f8f7ff 0%, #f0f4ff 100%)"
         }}
     >
-      
-    
       <Nav />
 
       <div className="max-w-xl mx-auto px-4 pt-10 md:pt-16">

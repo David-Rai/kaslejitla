@@ -4,7 +4,6 @@ import Loader from "../components/Loader";
 import { usePostHog } from "@posthog/react";
 import { useCandidates } from "../context/candidatesContext";
 import Nav from "../components/Nav";
-import supabase from "../config/supabase";
 import "react-toastify/dist/ReactToastify.css";
 import { useSocket } from "../context/socketContext";
 
