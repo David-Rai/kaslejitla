@@ -17,7 +17,7 @@ export const CandidateProvider = ({ children }) => {
     try {
       const res = await fetch(`${server_url}`);
       const data = await res.json();
-      console.log("Data from server", data);
+      // console.log("Data from server", data);
       setCandidates(data);
     } catch (err) {
       setCandidates([]);
@@ -29,23 +29,30 @@ export const CandidateProvider = ({ children }) => {
     fetchCandidates();
   }, []);
 
-  //Socket handling
+
+  //Socket handlgin
   useEffect(() => {
-    if (!socket) return;
+  if (!socket) return;
 
-    //Getting new vote
-    socket.on("new-vote", (payload) => {
-      console.log("payload got", payload);
-      const { id, new_vote_count } = payload;
-      setCandidates((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, vote_count:new_vote_count } : p)),
+  const handleNewVote = ({ id, vote_count }) => {
+    setCandidates((prev) => {
+      // Avoid unnecessary re-render if value is same
+      const updated = prev.map((p) =>
+        p.id === id && p.vote_count !== vote_count
+          ? { ...p, vote_count }
+          : p
       );
-    });
 
-    return ()=>{
-      socket.off('new-vote')
-    }
-  }, [socket]);
+      return updated;
+    });
+  };
+
+  socket.on("new-vote", handleNewVote);
+
+  return () => {
+    socket.off("new-vote", handleNewVote); // remove only this handler
+  };
+}, [socket]);
 
   return (
     <CandidateContext.Provider

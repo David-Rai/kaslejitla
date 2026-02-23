@@ -25,7 +25,7 @@ const Home = () => {
     );
 
     // Broadcast new vote into server
-    socket.emit("increase-vote", { id,new_vote_count });
+    socket.emit("increase-vote", { id });
 
     posthog.capture("vote", { votefor: name });
   };
