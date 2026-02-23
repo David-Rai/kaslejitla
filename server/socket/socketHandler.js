@@ -8,7 +8,7 @@ export const handleSocket = (io) => {
     client.on("increase-vote", (payload) => {
       console.log("payload from increase-vote event", payload);
       // Broadcast updated leaderboard to all clients
-      //   io.emit("leaderboard-update", clicks);
+      client.broadcast.emit("new-vote", payload);
     });
   });
 };

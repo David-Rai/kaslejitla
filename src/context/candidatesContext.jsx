@@ -8,20 +8,20 @@ export const CandidateProvider = ({ children }) => {
   const [candidates, setCandidates] = useState([]);
   const channelRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const update_duration = 5;
-  const [should_start, setShouldStart] = useState(false);
+  const server_url = import.meta.env.VITE_SERVER_URL;
+  console.log("server url", server_url);
 
+  //Fetching initial candidates
   const fetchCandidates = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("votes")
-      .select()
-      .order("vote_count", { ascending: false });
-
-    if (!error) {
+    try {
+      const res = await fetch(`${server_url}`);
+      const data = await res.json();
+      console.log("Data from server", data);
       setCandidates(data);
+    } catch (err) {
+      setCandidates([]);
     }
-
     setLoading(false);
   };
 

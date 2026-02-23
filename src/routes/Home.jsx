@@ -58,7 +58,7 @@ const Home = () => {
 
     const new_vote_count = vote_count + 1;
 
-    //Updating my_updatesRef.currentRef.current
+    //Updating my_updatesRef.current
     if (my_updatesRef.current.length === 0) {
       my_updatesRef.current.push({ id, new_vote_count });
       // console.log("zero updates so adding first one", my_updatesRef.current);
@@ -80,12 +80,13 @@ const Home = () => {
       prev.map((p) => (p.id === id ? { ...p, vote_count: new_vote_count } : p)),
     );
 
-    // Broadcast new vote
-    channelRef.current.send({
-      type: "broadcast",
-      event: "new_vote",
-      payload: { id, vote_count: new_vote_count },
-    });
+    // Broadcast new vote into server
+  
+    // channelRef.current.send({
+    //   type: "broadcast",
+    //   event: "new_vote",
+    //   payload: { id, vote_count: new_vote_count },
+    // });
 
     posthog.capture("vote", { votefor: name });
 
