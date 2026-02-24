@@ -18,6 +18,7 @@ const Home = () => {
     posthog.capture("vote", { votefor: id });
 
     clientVoteBuffer.current[id]=(clientVoteBuffer.current[id] || 0) + 1
+    
     // Optimistic update (optional)
     setCandidates((prev) =>
       prev.map((p) =>
@@ -101,7 +102,7 @@ const Home = () => {
             ⚠️ This is an unofficial public poll for entertainment purposes
             only.
           </p>
-          <p className="text-sm text-red-400">No autoclicker la sathy haru</p>
+          {/* <p className="text-sm text-red-400">No autoclicker la sathy haru</p> */}
         </div>
 
         {/* Candidates rendering */}

@@ -37,8 +37,8 @@ export const CandidateProvider = ({ children }) => {
     const handleNewVote = (updates) => {
       const reconciled={...updates}
       
-      console.log("updates", updates);
-      console.log("client buffer", clientVoteBuffer.current);
+      console.log("updates", reconciled);
+      console.log("buffer", clientVoteBuffer.current);
 
       Object.keys(clientVoteBuffer.current).forEach(
         (b) =>{
