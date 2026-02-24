@@ -1,7 +1,7 @@
 import supabase from '../supabase/supabaseconfig.js'
 import { votes } from '../memoryDB/votes.js';
 
-const TIME_GAP = 3 * 1000; //30s
+const TIME_GAP = 1 * 1000; //30s
 
 //Updates DB using Time based Batching
 export const db_updator = () => {

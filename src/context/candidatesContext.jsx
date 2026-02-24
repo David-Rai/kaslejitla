@@ -37,8 +37,8 @@ export const CandidateProvider = ({ children }) => {
     const handleNewVote = (updates) => {
       const reconciled={...updates}
       
-      console.log("updates", reconciled);
-      console.log("buffer", clientVoteBuffer.current);
+      // console.log("updates", reconciled);
+      // console.log("buffer", clientVoteBuffer.current);
 
       Object.keys(clientVoteBuffer.current).forEach(
         (b) =>{
@@ -55,7 +55,7 @@ export const CandidateProvider = ({ children }) => {
         ),
       );
       clientVoteBuffer.current = {};
-      console.log("after subtraction", reconciled);
+      // console.log("after subtraction", reconciled);
     };
 
     socket.on("new-vote", handleNewVote);

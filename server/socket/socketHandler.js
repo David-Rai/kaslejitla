@@ -11,6 +11,7 @@ export const handleSocket = (io) => {
     });
   });
 };
+
 // Build voteMap once at startup
 const voteMap = {};
 votes.forEach((v) => {
