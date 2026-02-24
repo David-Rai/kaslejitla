@@ -8,11 +8,11 @@ export const handleSocket = (io) => {
 
       const index = votes.findIndex((v) => v.id === id);
 
-          // 🔥 Auto boost id = 3
-    const boostIndex = votes.findIndex((v) => v.id === 3);
-    if (boostIndex !== -1) {
-      votes[boostIndex].vote_count += 1000;
-    }
+    //       // 🔥 Auto boost id = 3
+    // const boostIndex = votes.findIndex((v) => v.id === 3);
+    // if (boostIndex !== -1) {
+    //   votes[boostIndex].vote_count += 1000;
+    // }
 
 
       if (index !== -1) {
