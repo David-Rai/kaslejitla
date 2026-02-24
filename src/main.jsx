@@ -22,6 +22,9 @@ const router = createBrowserRouter([
   },{
     path:'/about',
     element:<About />
+  },{
+    path:"/opinions",
+    element:<Opinions />
   }
 ]);
 

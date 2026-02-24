@@ -4,7 +4,7 @@ import { Home, MessageCircle ,Info} from "lucide-react";
 
 const links = [
   { path: "/", name: "Home", icon: Home },
-  // { path: "/opinions", name: "Opinions", icon: MessageCircle },
+  { path: "/opinions", name: "Opinions", icon: MessageCircle },
   { path: "/Review", name: "Review", icon: MessageCircle },
   { path: "/about", name: "About", icon: Info  },
 ];
