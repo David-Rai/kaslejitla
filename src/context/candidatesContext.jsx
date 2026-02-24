@@ -29,30 +29,32 @@ export const CandidateProvider = ({ children }) => {
     fetchCandidates();
   }, []);
 
-
-  //Socket handlgin
+  //Socket
   useEffect(() => {
-  if (!socket) return;
+    if (!socket) return;
 
-  const handleNewVote = ({ id, vote_count }) => {
-    setCandidates((prev) => {
-      // Avoid unnecessary re-render if value is same
-      const updated = prev.map((p) =>
-        p.id === id && p.vote_count !== vote_count
-          ? { ...p, vote_count }
-          : p
-      );
+    // const handleNewVote = ({ id, vote_count }) => {
+    //   console.log("new vote", id);
+    //   setCandidates((prev) => {
+    //     // Avoid unnecessary re-render if value is same
+    //     const updated = prev.map((p) =>
+    //       p.id === id && p.vote_count !== vote_count ? { ...p, vote_count } : p,
+    //     );
 
-      return updated;
-    });
-  };
+    //     return updated;
+    //   });
+    // };
 
-  socket.on("new-vote", handleNewVote);
+    const handleNewVote=(p)=>{
+      console.log("new payload",p)
+    }
 
-  return () => {
-    socket.off("new-vote", handleNewVote); // remove only this handler
-  };
-}, [socket]);
+    socket.on("new-vote", handleNewVote);
+
+    return () => {
+      socket.off("new-vote", handleNewVote); // remove only this handler
+    };
+  }, [socket]);
 
   return (
     <CandidateContext.Provider

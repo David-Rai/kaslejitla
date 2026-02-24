@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import React from "react";
 import Opinions from "./routes/Opinions";
 import Review from "./routes/Review";
