@@ -34,8 +34,11 @@ export const CandidateProvider = ({ children }) => {
   useEffect(() => {
     if (!socket) return;
     const handleNewVote = (updates) => {
-      console.log(clientVoteBuffer.current)
-     Object.keys(clientVoteBuffer.current).forEach(b=>updates[b] -=clientVoteBuffer.current[b] )
+      console.log("updates", updates);
+      console.log("client buffer", clientVoteBuffer.current);
+      Object.keys(clientVoteBuffer.current).forEach(
+        (b) => (updates[b] -= clientVoteBuffer.current[b]),
+      );
       setCandidates((prev) =>
         prev.map((c) =>
           updates[c.id]
@@ -43,7 +46,8 @@ export const CandidateProvider = ({ children }) => {
             : c,
         ),
       );
-      clientVoteBuffer.current={}
+      clientVoteBuffer.current = {};
+      console.log("after subtraction", updates);
     };
 
     socket.on("new-vote", handleNewVote);
