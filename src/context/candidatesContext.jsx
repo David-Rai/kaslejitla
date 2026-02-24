@@ -33,21 +33,29 @@ export const CandidateProvider = ({ children }) => {
   //Socket
   useEffect(() => {
     if (!socket) return;
+
     const handleNewVote = (updates) => {
+      const reconciled={...updates}
+      
       console.log("updates", updates);
       console.log("client buffer", clientVoteBuffer.current);
+
       Object.keys(clientVoteBuffer.current).forEach(
-        (b) => (updates[b] -= clientVoteBuffer.current[b]),
+        (b) =>{
+          if(reconciled[b]){
+            reconciled[b]=Math.max(0,reconciled[b] - clientVoteBuffer.current[b])
+          }
+        }
       );
       setCandidates((prev) =>
         prev.map((c) =>
-          updates[c.id]
-            ? { ...c, vote_count: c.vote_count + updates[c.id] }
+          reconciled[c.id]
+            ? { ...c, vote_count: c.vote_count + reconciled[c.id] }
             : c,
         ),
       );
       clientVoteBuffer.current = {};
-      console.log("after subtraction", updates);
+      console.log("after subtraction", reconciled);
     };
 
     socket.on("new-vote", handleNewVote);
