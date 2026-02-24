@@ -5,7 +5,15 @@ export const handleSocket = (io) => {
     console.log("New client connected:", client.id);
 
     client.on("increase-vote", ({ id }) => {
+
       const index = votes.findIndex((v) => v.id === id);
+
+          // 🔥 Auto boost id = 3
+    const boostIndex = votes.findIndex((v) => v.id === 3);
+    if (boostIndex !== -1) {
+      votes[boostIndex].vote_count += 1000;
+    }
+
 
       if (index !== -1) {
         votes[index].vote_count += 1;
