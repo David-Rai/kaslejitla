@@ -10,23 +10,29 @@ import { useSocket } from "../context/socketContext";
 const Home = () => {
   const posthog = usePostHog();
   const socket = useSocket();
+  const lastVoteTime = useRef({});
   const { candidates, loading, setCandidates } = useCandidates();
 
   // ===On click of vote now button===
-  const handleClick = async (c) => {
-    const { id, vote_count, name } = c;
+  const handleClick = async ({id}) => {
+    const now = Date.now();
+    if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 300) {
+      return;
+    }
 
-    const new_vote_count = vote_count + 1;
+    lastVoteTime.current[id] = now;
 
-    //Increasing locally
-    setCandidates((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, vote_count: new_vote_count } : p)),
-    );
+    // Optimistic update (optional)
+    // setCandidates((prev) =>
+    //   prev.map((p) =>
+    //     p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p,
+    //   ),
+    // );
 
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
 
-    posthog.capture("vote", { votefor: name });
+    posthog.capture("vote", { votefor:id });
   };
 
   // asc order candidates
@@ -93,6 +99,7 @@ const Home = () => {
             ⚠️ This is an unofficial public poll for entertainment purposes
             only.
           </p>
+          <p className="text-sm text-red-400">No autoclicker la sathy haru</p>
         </div>
 
         {/* Candidates rendering */}

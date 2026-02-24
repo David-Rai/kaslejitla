@@ -32,19 +32,6 @@ export const CandidateProvider = ({ children }) => {
   //Socket
   useEffect(() => {
     if (!socket) return;
-
-    // const handleNewVote = ({ id, vote_count }) => {
-    //   console.log("new vote", id);
-    //   setCandidates((prev) => {
-    //     // Avoid unnecessary re-render if value is same
-    //     const updated = prev.map((p) =>
-    //       p.id === id && p.vote_count !== vote_count ? { ...p, vote_count } : p,
-    //     );
-
-    //     return updated;
-    //   });
-    // };
-
     const handleNewVote = (updates) => {
       console.log("new", updates);
       setCandidates((prev) =>
