@@ -80,7 +80,9 @@ const Home = () => {
               margin: 0,
             }}
           >
-            Who do you love? fun poll
+            {/* Who do you love? */}
+            {/* 🚀 Unlimited Voting  */}
+            🚀 Jati Man Lagcha Teti Click Garnuhos!
           </h1>
           <p
             style={{
