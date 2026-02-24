@@ -11,28 +11,30 @@ const Home = () => {
   const posthog = usePostHog();
   const socket = useSocket();
   const lastVoteTime = useRef({});
-  const { candidates, loading, setCandidates } = useCandidates();
+  const { candidates, loading, setCandidates,clientVoteBuffer } = useCandidates();
 
   // ===On click of vote now button===
-  const handleClick = async ({id}) => {
+  const handleClick = async ({ id }) => {
+    posthog.capture("vote", { votefor: id });
+
+    clientVoteBuffer.current[id]=(clientVoteBuffer.current[id] || 0) + 1
+    // Optimistic update (optional)
+    setCandidates((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p,
+      ),
+    );
+
+    //Throttling with Socket emitting
     const now = Date.now();
-    if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 300) {
+    if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 500) {
       return;
     }
 
     lastVoteTime.current[id] = now;
 
-    // Optimistic update (optional)
-    // setCandidates((prev) =>
-    //   prev.map((p) =>
-    //     p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p,
-    //   ),
-    // );
-
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
-
-    posthog.capture("vote", { votefor:id });
   };
 
   // asc order candidates

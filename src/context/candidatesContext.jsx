@@ -10,6 +10,7 @@ export const CandidateProvider = ({ children }) => {
   const socket = useSocket();
   const channelRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const clientVoteBuffer = useRef({});
 
   //Fetching initial candidates
   const fetchCandidates = async () => {
@@ -33,7 +34,8 @@ export const CandidateProvider = ({ children }) => {
   useEffect(() => {
     if (!socket) return;
     const handleNewVote = (updates) => {
-      console.log("new", updates);
+      console.log(clientVoteBuffer.current)
+     Object.keys(clientVoteBuffer.current).forEach(b=>updates[b] -=clientVoteBuffer.current[b] )
       setCandidates((prev) =>
         prev.map((c) =>
           updates[c.id]
@@ -41,6 +43,7 @@ export const CandidateProvider = ({ children }) => {
             : c,
         ),
       );
+      clientVoteBuffer.current={}
     };
 
     socket.on("new-vote", handleNewVote);
@@ -57,6 +60,7 @@ export const CandidateProvider = ({ children }) => {
         setCandidates,
         loading,
         channelRef,
+        clientVoteBuffer,
         fetchCandidates,
       }}
     >
