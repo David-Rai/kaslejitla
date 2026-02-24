@@ -45,9 +45,16 @@ export const CandidateProvider = ({ children }) => {
     //   });
     // };
 
-    const handleNewVote=(p)=>{
-      console.log("new payload",p)
-    }
+    const handleNewVote = (updates) => {
+      console.log("new", updates);
+      setCandidates((prev) =>
+        prev.map((c) =>
+          updates[c.id]
+            ? { ...c, vote_count: c.vote_count + updates[c.id] }
+            : c,
+        ),
+      );
+    };
 
     socket.on("new-vote", handleNewVote);
 
