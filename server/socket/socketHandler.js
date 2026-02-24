@@ -5,37 +5,33 @@ let vote_buffer = {};
 export const handleSocket = (io) => {
   io_instance = io;
   io.on("connection", (client) => {
-    // // console.log("New client connected:", client.id);
-
     //******On New vote*******
-    //Increasing the votes on memory on server side
     client.on("increase-vote", ({ id }) => {
-      // const index = votes.findIndex((v) => v.id === id);
       vote_buffer[id] = (vote_buffer[id] || 0) + 1; //updating on buffer
-
-      // if (index !== -1) {
-      //   votes[index].vote_count += 1;
-      // }
     });
   });
 };
+// Build voteMap once at startup
+const voteMap = {};
+votes.forEach((v) => {
+  voteMap[v.id] = v;
+});
 
 setInterval(() => {
-  if (io_instance === null) return;
-  if ((Object.keys(vote_buffer).length === 0)) return;
+  if (!io_instance) return;
+  if (Object.keys(vote_buffer).length === 0) return;
 
-  // console.log("Broadcasting every second");
+  // Take a snapshot of current votes
   const updates = vote_buffer;
-  vote_buffer = {};
+  vote_buffer = {}; // reset buffer for new votes
 
-  //updating the votes on memory
+  // Update memory counts
   Object.keys(updates).forEach((id) => {
-    const index = votes.findIndex((v) => v.id === id);
-    if (index !== -1) {
-      votes[index].vote_count += vote_buffer[id];
+    if (voteMap[id]) {
+      voteMap[id].vote_count += updates[id];
     }
   });
 
-  //Broadcasting into users now
-  io_instance.emit("new-vote", vote_buffer);
+  // Broadcast updates
+  io_instance.emit("new-vote", updates);
 }, 1000);
