@@ -23,7 +23,6 @@ const Home = () => {
       prev.map((p) => (p.id === id ? { ...p, vote_count: new_vote_count } : p)),
     );
 
-    return
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
 
