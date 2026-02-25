@@ -42,7 +42,7 @@ const Review = () => {
             {/* <AlertTriangle size={13} /> */}
             Anonymous Reviewing
           </div>
-          <h1 className="text-3xl font-semibold text-gray-900 leading-tight">Submit a Review</h1>
+          <h1 className="text-3xl font-semibold text-gray-900 leading-tight">Website Review</h1>
           <p className="text-gray-400 mt-2 text-sm font-light">
             Timro honest (Suggestions,Report,Reviews) deuna 
             {/* Your identity is never stored. Reviews are completely anonymous. */}
