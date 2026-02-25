@@ -1,7 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
+import { config } from "dotenv";
+config();
 
-const supabaseUrl = process.env.SUPABASE_URL || 'https://skwnxafpaqlhgynnzowj.supabase.co';
-const supabaseKey = process.env.SUPABASE_PUBLISHABLE_DEFAULT_KEY || 'sb_publishable_BsGAM5LNa5Bh4jLop8lBig_xikm4y6O';
+const supabaseUrl = process.env.SUPABASE_URL 
+const supabaseKey = process.env.SUPABASE_PUBLISHABLE_DEFAULT_KEY 
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 

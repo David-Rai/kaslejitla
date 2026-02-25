@@ -1,4 +1,4 @@
-import { votes } from "../memoryDB/votes.js";
+import { votes,voteMap } from "../memoryDB/votes.js";
 let io_instance = null; //Holdoes IO instance
 let vote_buffer = {};
 
@@ -12,11 +12,6 @@ export const handleSocket = (io) => {
   });
 };
 
-// Build voteMap once at startup
-const voteMap = {};
-votes.forEach((v) => {
-  voteMap[v.id] = v;
-});
 
 setInterval(() => {
   if (!io_instance) return;
@@ -33,6 +28,7 @@ setInterval(() => {
     }
   });
 
+  console.log("updated memory")
   // Broadcast updates
   io_instance.emit("new-vote", updates);
 }, 1000);

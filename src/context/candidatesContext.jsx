@@ -18,7 +18,7 @@ export const CandidateProvider = ({ children }) => {
     try {
       const res = await fetch(`${server_url}`);
       const data = await res.json();
-      // console.log("Data from server", data);
+      console.log("Data from server", data);
       setCandidates(data);
     } catch (err) {
       setCandidates([]);
@@ -37,16 +37,16 @@ export const CandidateProvider = ({ children }) => {
     const handleNewVote = (updates) => {
       const reconciled={...updates}
       
-      // console.log("updates", reconciled);
+      console.log("updates", reconciled);
       // console.log("buffer", clientVoteBuffer.current);
 
-      Object.keys(clientVoteBuffer.current).forEach(
-        (b) =>{
-          if(reconciled[b]){
-            reconciled[b]=Math.max(0,reconciled[b] - clientVoteBuffer.current[b])
-          }
-        }
-      );
+      // Object.keys(clientVoteBuffer.current).forEach(
+      //   (b) =>{
+      //     if(reconciled[b]){
+      //       reconciled[b]=Math.max(0,reconciled[b] - clientVoteBuffer.current[b])
+      //     }
+      //   }
+      // );
       setCandidates((prev) =>
         prev.map((c) =>
           reconciled[c.id]
@@ -54,7 +54,7 @@ export const CandidateProvider = ({ children }) => {
             : c,
         ),
       );
-      clientVoteBuffer.current = {};
+      // clientVoteBuffer.current = {};
       // console.log("after subtraction", reconciled);
     };
 

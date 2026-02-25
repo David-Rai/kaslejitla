@@ -4,11 +4,11 @@ import http from "http";
 import cors from "cors";
 import { config } from "dotenv";
 config();
-
 import { votes } from "./memoryDB/votes.js";
 import { db_updator } from "./utils/db_updator.js";
 import { handleSocket } from "./socket/socketHandler.js";
 import { initialData } from "./utils/initialData.js";
+
 
 (async () => {
   //Socket instance

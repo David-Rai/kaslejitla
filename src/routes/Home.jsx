@@ -17,22 +17,22 @@ const Home = () => {
   const handleClick = async ({ id }) => {
     posthog.capture("vote", { votefor: id });
 
-    clientVoteBuffer.current[id]=(clientVoteBuffer.current[id] || 0) + 1
+    // clientVoteBuffer.current[id]=(clientVoteBuffer.current[id] || 0) + 1
     
-    // Optimistic update (optional)
-    setCandidates((prev) =>
-      prev.map((p) =>
-        p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p,
-      ),
-    );
+    // // Optimistic update (optional)
+    // setCandidates((prev) =>
+    //   prev.map((p) =>
+    //     p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p,
+    //   ),
+    // );
 
     //Throttling with Socket emitting
-    const now = Date.now();
-    if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 500) {
-      return;
-    }
+    // const now = Date.now();
+    // if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 500) {
+    //   return;
+    // }
 
-    lastVoteTime.current[id] = now;
+    // lastVoteTime.current[id] = now;
 
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
