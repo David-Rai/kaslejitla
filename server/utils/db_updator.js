@@ -1,7 +1,7 @@
 import supabase from "../supabase/supabaseconfig.js";
 import { votes } from "../memoryDB/votes.js";
 
-const TIME_GAP = 1500; // 1.5 seconds
+const TIME_GAP = 60 * 1000; // 1.5 seconds
 
 export const db_updator = () => {
   setInterval(async () => {
