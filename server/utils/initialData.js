@@ -13,7 +13,7 @@ export async function initialData() {
     votes.forEach((v) => {
       voteMap[v.id] = v;
     });
-    console.log("votes", votes);
-    console.log("vote map", voteMap);
+    // console.log("votes", votes);
+    // console.log("vote map", voteMap);
   }
 }
