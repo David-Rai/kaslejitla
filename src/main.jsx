@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import React from "react";
-import Opinions from "./routes/Opinions";
+// import Opinions from "./routes/Opinions";
 import Review from "./routes/Review";
 import { createRoot } from "react-dom/client";
 import About from "./routes/About";
@@ -22,9 +22,6 @@ const router = createBrowserRouter([
   },{
     path:'/about',
     element:<About />
-  },{
-    path:"/opinions",
-    element:<Opinions />
   }
 ]);
 
