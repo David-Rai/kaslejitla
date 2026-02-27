@@ -115,7 +115,7 @@ const Home = () => {
         style={{
           maxWidth: 640,
           margin: "0 auto",
-          padding: "0 0 100px",
+          padding: "0 0 200px",
           minHeight: "100vh",
           background: "linear-gradient(160deg, #f8f7ff 0%, #f0f4ff 100%)",
         }}

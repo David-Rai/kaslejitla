@@ -1,5 +1,7 @@
 import React from "react";
 import Opinions from "./routes/Opinions";
+import Layout from './routes/layout'
+import Promotion from "./routes/Promotion";
 import Review from "./routes/Review";
 import { createRoot } from "react-dom/client";
 import About from "./routes/About";
@@ -11,17 +13,28 @@ import Home from "./routes/Home";
 import { PostHogProvider } from "@posthog/react";
 
 const router = createBrowserRouter([
-  {
+ {
+  path:'/',
+  element:<Layout />,
+  children:[
+     {
     path: "/",
     element: <Home />,
   },
   {
     path: "/review",
     element: <Review />,
-  },{
-    path:'/about',
-    element:<About />
-  }
+  },
+  {
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "/promotion",
+    element: <Promotion />,
+  },
+  ]
+ }
 ]);
 
 const options = {
@@ -31,14 +44,14 @@ const options = {
 };
 
 createRoot(document.getElementById("root")).render(
-<SocketProvider>
+  <SocketProvider>
     <CandidateProvider>
-    <PostHogProvider
-      apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
-      options={options}
-    >
-      <RouterProvider router={router} />
-    </PostHogProvider>
-  </CandidateProvider>
-</SocketProvider>
+      <PostHogProvider
+        apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
+        options={options}
+      >
+        <RouterProvider router={router} />
+      </PostHogProvider>
+    </CandidateProvider>
+  </SocketProvider>,
 );

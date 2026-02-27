@@ -5,6 +5,7 @@ import { Home, MessageCircle, Info } from "lucide-react";
 
 const links = [
   { path: "/", name: "Home", icon: Home },
+  { path: "/promotion", name: "Promotion", icon: Home },
   // { path: "/opinions", name: "Opinions", icon: MessageCircle },
   { path: "/Review", name: "Review", icon: MessageCircle },
   { path: "/about", name: "About", icon: Info },
@@ -49,12 +50,11 @@ const NavLink = ({ link, pathname, mobile = false }) => {
 
 const Nav = ({ isSound, SetIsSound }) => {
   const { pathname } = useLocation();
-  const toggleSound = () => {};
 
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-1 p-1 bg-white/80 backdrop-blur-md border border-black/10 rounded-xl shadow-sm">
+      <nav className="hidden md:flex items-center gap-1 p-1 py-4 bg-white/80 backdrop-blur-md border border-black/10 rounded-xl shadow-sm">
         {links.map((link) => (
           <NavLink key={link.path} link={link} pathname={pathname} />
         ))}
