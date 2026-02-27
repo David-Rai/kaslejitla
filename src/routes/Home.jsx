@@ -171,16 +171,7 @@ const Home = () => {
                   >
                     {candidate.name}
                   </h2>
-                  <p
-                    style={{
-                      margin: "3px 0 0",
-                      fontSize: 13,
-                      color: "#9ca3af",
-                      fontWeight: 300,
-                    }}
-                  >
-                    {candidate.party}
-                  </p>
+              
                 </div>
 
                 <div className="vote-count">
