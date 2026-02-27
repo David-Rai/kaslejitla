@@ -25,7 +25,7 @@ const content = {
     headline: "Promote Your Brand",
     subheadline: "For a Full Day",
     description:
-      "We put your business, startup, or social media account in front of thousands of highly engaged users — every single day.",
+      "We showcase your business, startup, or social media account through banners and posters on our website, reaching thousands of highly engaged users every single day.",
     stat1: "10K+",
     stat1Label: "Daily Views",
     stat2: "1M+",
@@ -57,9 +57,9 @@ const content = {
     badge: "🔥 TikTok मा १M+ भ्यूज",
     headline: "आफ्नो ब्र्यान्ड प्रमोट गर्नुहोस्",
     subheadline: "पूरा एक दिनको लागि",
-    description:
-      "हामी तपाईंको व्यवसाय, स्टार्टअप, वा सोशल मिडिया अकाउन्ट हजारौं सक्रिय दर्शकहरूसमक्ष पुर्‍याउँछौं।",
     stat1: "१०K+",
+    description:
+      "हामी तपाईंको व्यवसाय, स्टार्टअप, वा सोशल मिडिया अकाउन्ट हाम्रो वेबसाइटमा ब्यानर र पोस्टर मार्फत हजारौं सक्रिय दर्शकहरूसमक्ष पुर्‍याउँछौं।",
     stat1Label: "दैनिक भ्यूज",
     stat2: "१M+",
     stat2Label: "TikTok भ्यूज",
@@ -128,7 +128,9 @@ const Promotion = () => {
           <button
             onClick={() => setLang("en")}
             className={`px-3 py-1 rounded-full transition-all ${
-              lang === "en" ? "bg-red-600 text-white shadow" : "text-gray-500 hover:text-gray-800"
+              lang === "en"
+                ? "bg-red-600 text-white shadow"
+                : "text-gray-500 hover:text-gray-800"
             }`}
           >
             EN
@@ -136,7 +138,9 @@ const Promotion = () => {
           <button
             onClick={() => setLang("np")}
             className={`px-3 py-1 rounded-full transition-all ${
-              lang === "np" ? "bg-red-600 text-white shadow" : "text-gray-500 hover:text-gray-800"
+              lang === "np"
+                ? "bg-red-600 text-white shadow"
+                : "text-gray-500 hover:text-gray-800"
             }`}
           >
             नेपाली
@@ -172,45 +176,56 @@ const Promotion = () => {
           {[
             { icon: <Eye size={18} />, val: t.stat1, label: t.stat1Label },
             { icon: <Flame size={18} />, val: t.stat2, label: t.stat2Label },
-            { icon: <BarChart2 size={18} />, val: t.stat3, label: t.stat3Label },
+            {
+              icon: <BarChart2 size={18} />,
+              val: t.stat3,
+              label: t.stat3Label,
+            },
           ].map((s, i) => (
-            <div key={i} className="bg-white border border-gray-100 rounded-2xl p-3 text-center shadow-sm">
-              <div className="flex justify-center text-red-500 mb-1">{s.icon}</div>
+            <div
+              key={i}
+              className="bg-white border border-gray-100 rounded-2xl p-3 text-center shadow-sm"
+            >
+              <div className="flex justify-center text-red-500 mb-1">
+                {s.icon}
+              </div>
               <div className="text-2xl font-black text-gray-900">{s.val}</div>
-              <div className="text-xs text-gray-400 font-medium mt-0.5">{s.label}</div>
+              <div className="text-xs text-gray-400 font-medium mt-0.5">
+                {s.label}
+              </div>
             </div>
           ))}
         </div>
 
         {/* Contact Card */}
- {/* Bottom CTA */}
-      <section className="px-4 pb-4">
-        <div className="bg-red-600 rounded-2xl p-6 text-center shadow-lg">
-          <h3 className="text-white font-black text-xl mb-1">{t.cta}</h3>
-          <p className="text-red-100 text-sm mb-4">{t.ctaDesc}</p>
-          <div className="flex flex-col gap-3">
-            <a
-              href={instaUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white text-red-600 font-bold px-6 py-3 rounded-xl text-sm shadow transition-opacity hover:opacity-90"
-            >
-              <Instagram size={17} />
-              {t.instaBtn}
-            </a>
-            <a
-              href={tiktokUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-red-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-opacity hover:opacity-90"
-            >
-              <TikTokIcon size={16} />
-              {t.tiktokBtn}
-              <ExternalLink size={14} />
-            </a>
+        {/* Bottom CTA */}
+        <section className="px-4 pb-4">
+          <div className="bg-red-600 rounded-2xl p-6 text-center shadow-lg">
+            <h3 className="text-white font-black text-xl mb-1">{t.cta}</h3>
+            <p className="text-red-100 text-sm mb-4">{t.ctaDesc}</p>
+            <div className="flex flex-col gap-3">
+              <a
+                href={instaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-white text-red-600 font-bold px-6 py-3 rounded-xl text-sm shadow transition-opacity hover:opacity-90"
+              >
+                <Instagram size={17} />
+                {t.instaBtn}
+              </a>
+              <a
+                href={tiktokUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-red-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-opacity hover:opacity-90"
+              >
+                <TikTokIcon size={16} />
+                {t.tiktokBtn}
+                <ExternalLink size={14} />
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
         <p className="text-center text-xs text-gray-400">{t.footerNote}</p>
       </section>
@@ -225,8 +240,12 @@ const Promotion = () => {
             <Clock size={22} className="text-red-600" />
           </div>
           <div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">{t.retentionTitle}</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">{t.retentionDesc}</p>
+            <h3 className="font-bold text-gray-900 text-base mb-1">
+              {t.retentionTitle}
+            </h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              {t.retentionDesc}
+            </p>
           </div>
         </div>
       </section>
@@ -239,17 +258,39 @@ const Promotion = () => {
         </h3>
         <div className="flex flex-col gap-3">
           {[
-            { icon: <Building2 size={20} className="text-red-600" />, title: t.businesses, desc: t.businessDesc },
-            { icon: <Rocket size={20} className="text-red-600" />, title: t.startups, desc: t.startupDesc },
-            { icon: <Instagram size={20} className="text-red-600" />, title: t.socialMedia, desc: t.socialMediaDesc },
+            {
+              icon: <Building2 size={20} className="text-red-600" />,
+              title: t.businesses,
+              desc: t.businessDesc,
+            },
+            {
+              icon: <Rocket size={20} className="text-red-600" />,
+              title: t.startups,
+              desc: t.startupDesc,
+            },
+            {
+              icon: <Instagram size={20} className="text-red-600" />,
+              title: t.socialMedia,
+              desc: t.socialMediaDesc,
+            },
           ].map((item, i) => (
-            <div key={i} className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
-              <div className="bg-red-50 rounded-xl p-2.5 shrink-0">{item.icon}</div>
+            <div
+              key={i}
+              className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm"
+            >
+              <div className="bg-red-50 rounded-xl p-2.5 shrink-0">
+                {item.icon}
+              </div>
               <div>
-                <div className="font-bold text-gray-900 text-sm">{item.title}</div>
+                <div className="font-bold text-gray-900 text-sm">
+                  {item.title}
+                </div>
                 <div className="text-gray-400 text-xs mt-0.5">{item.desc}</div>
               </div>
-              <ChevronRight size={16} className="text-gray-300 ml-auto shrink-0" />
+              <ChevronRight
+                size={16}
+                className="text-gray-300 ml-auto shrink-0"
+              />
             </div>
           ))}
         </div>
@@ -290,9 +331,14 @@ const Promotion = () => {
             { icon: <Star size={18} />, label: "Quality Reach" },
             { icon: <Flame size={18} />, label: "Viral Content" },
           ].map((item, i) => (
-            <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+            <div
+              key={i}
+              className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3"
+            >
               <span className="text-red-500">{item.icon}</span>
-              <span className="text-sm font-semibold text-gray-700">{item.label}</span>
+              <span className="text-sm font-semibold text-gray-700">
+                {item.label}
+              </span>
             </div>
           ))}
         </div>
