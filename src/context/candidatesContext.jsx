@@ -18,7 +18,7 @@ export const CandidateProvider = ({ children }) => {
     try {
       const res = await fetch(`${server_url}`);
       const data = await res.json();
-      console.log("Data from server", data);
+      // console.log("Data from server", data);`
       setCandidates(data);
     } catch (err) {
       setCandidates([]);
