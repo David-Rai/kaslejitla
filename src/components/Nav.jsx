@@ -1,12 +1,13 @@
 import React from "react";
 import { useLocation, Link } from "react-router";
-import { Home, MessageCircle ,Info} from "lucide-react";
+import { Volume2, VolumeOff } from "lucide-react";
+import { Home, MessageCircle, Info } from "lucide-react";
 
 const links = [
   { path: "/", name: "Home", icon: Home },
   // { path: "/opinions", name: "Opinions", icon: MessageCircle },
   { path: "/Review", name: "Review", icon: MessageCircle },
-  { path: "/about", name: "About", icon: Info  },
+  { path: "/about", name: "About", icon: Info },
 ];
 
 const NavLink = ({ link, pathname, mobile = false }) => {
@@ -46,8 +47,9 @@ const NavLink = ({ link, pathname, mobile = false }) => {
   );
 };
 
-const Nav = () => {
+const Nav = ({ isSound, SetIsSound }) => {
   const { pathname } = useLocation();
+  const toggleSound = () => {};
 
   return (
     <>
@@ -56,13 +58,31 @@ const Nav = () => {
         {links.map((link) => (
           <NavLink key={link.path} link={link} pathname={pathname} />
         ))}
+        <button
+          className="px-4  text-gray-400 cursor-pointer"
+          onClick={() => SetIsSound(!isSound)}
+        >
+          {isSound ? <Volume2 /> : <VolumeOff />}
+        </button>
       </nav>
 
       {/* Mobile Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 flex justify-center gap-2 p-2 pb-[calc(8px+env(safe-area-inset-bottom))] bg-white/90 backdrop-blur-lg border-t border-black/10 shadow-lg z-50 md:hidden">
+      <nav
+        className="fixed bottom-0 left-0 
+      right-0 flex justify-center gap-2 p-2 
+      pb-[calc(8px+env(safe-area-inset-bottom))]
+       bg-white/90 backdrop-blur-lg border-t
+        border-black/10 shadow-lg z-50 md:hidden"
+      >
         {links.map((link) => (
           <NavLink key={link.path} link={link} pathname={pathname} mobile />
         ))}
+        <button
+          className="px-4  text-gray-400 cursor-pointer"
+          onClick={() => SetIsSound(!isSound)}
+        >
+          {isSound ? <Volume2 /> : <VolumeOff />}
+        </button>
       </nav>
     </>
   );

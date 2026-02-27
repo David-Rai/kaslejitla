@@ -17,6 +17,7 @@ const Home = () => {
   const { candidates, loading, setCandidates, clientVoteBuffer } =
     useCandidates();
   const [disable, setDisable] = useState(false);
+  const [isSound,SetIsSound]=useState(true)
 
   // ===On click of vote now button===
   const handleClick = async ({ id }) => {
@@ -39,8 +40,8 @@ const Home = () => {
     lastVoteTime.current[id] = now;
     setDisable(false);
 
-    if(id===2){
-    play();
+    if (id === 2 && isSound) {
+      play();
     }
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
@@ -71,7 +72,7 @@ const Home = () => {
         }}
       >
         {/* Navigation */}
-        <Nav />
+        <Nav isSound={isSound} SetIsSound={SetIsSound} />
 
         {/* Header */}
         <div style={{ padding: "32px 20px 16px" }}>
@@ -89,24 +90,14 @@ const Home = () => {
             Live Poll
           </p>
           <h1
+            className="text-[26px] font-semibold text-[#111827] m-o"
             style={{
-              fontSize: 26,
-              fontWeight: 600,
-              color: "#111827",
               lineHeight: 1.3,
-              margin: 0,
             }}
           >
             Who do you love? fun poll
           </h1>
-          <p
-            style={{
-              fontSize: 14,
-              color: "#9ca3af",
-              marginTop: 6,
-              fontWeight: 300,
-            }}
-          >
+          <p className="text-[14px] text-[#9ca3af] mt-[6px] font-light">
             ⚠️ This is an unofficial public poll for entertainment purposes
             only.
           </p>
@@ -171,7 +162,6 @@ const Home = () => {
                   >
                     {candidate.name}
                   </h2>
-              
                 </div>
 
                 <div className="vote-count">
