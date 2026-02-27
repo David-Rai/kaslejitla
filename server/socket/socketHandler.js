@@ -31,4 +31,4 @@ setInterval(() => {
   console.log("updated memory")
   // Broadcast updates
   io_instance.emit("new-vote", updates);
-}, 500);
+}, 200);

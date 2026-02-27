@@ -32,14 +32,16 @@ const Home = () => {
 
     //Throttling with Socket emitting
     const now = Date.now();
-    if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 500) {
+    if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 200) {
       // console.log(lastVoteTime.current[id] - now)
       return setDisable(true);
     }
-
-    play();
     lastVoteTime.current[id] = now;
     setDisable(false);
+
+    if(id===2){
+    play();
+    }
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
   };
