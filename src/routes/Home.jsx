@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../components/Loader";
+import useSound from "use-sound";
+import bellsound from "../assets/bellsound.mp3";
 import { usePostHog } from "@posthog/react";
 import { useCandidates } from "../context/candidatesContext";
 import Nav from "../components/Nav";
@@ -9,16 +11,17 @@ import { useSocket } from "../context/socketContext";
 
 const Home = () => {
   const posthog = usePostHog();
+  const [play] = useSound(bellsound);
   const socket = useSocket();
   const lastVoteTime = useRef({});
-  const { candidates, loading, setCandidates,clientVoteBuffer } = useCandidates();
+  const { candidates, loading, setCandidates, clientVoteBuffer } =
+    useCandidates();
 
   // ===On click of vote now button===
   const handleClick = async ({ id }) => {
     posthog.capture("vote", { votefor: id });
-
     // clientVoteBuffer.current[id]=(clientVoteBuffer.current[id] || 0) + 1
-    
+
     // // Optimistic update (optional)
     // setCandidates((prev) =>
     //   prev.map((p) =>
@@ -29,9 +32,11 @@ const Home = () => {
     //Throttling with Socket emitting
     const now = Date.now();
     if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 500) {
+      // console.log(lastVoteTime.current[id] - now)
       return;
     }
 
+    play();
     lastVoteTime.current[id] = now;
 
     // Broadcast new vote into server
@@ -138,6 +143,7 @@ const Home = () => {
             return (
               <div
                 key={candidate.id}
+                // onClick={play}
                 onClick={() => handleClick(candidate)}
                 className="candidate-card select-none"
               >
