@@ -2,10 +2,11 @@ import React from "react";
 import { useLocation, Link } from "react-router";
 import { Volume2, VolumeOff } from "lucide-react";
 import { Home, MessageCircle, Info } from "lucide-react";
+import {Banknote} from 'lucide-react'
 
 const links = [
   { path: "/", name: "Home", icon: Home },
-  { path: "/promotion", name: "Promotion", icon: Home },
+  { path: "/promotion", name: "Promotion", icon: Banknote },
   // { path: "/opinions", name: "Opinions", icon: MessageCircle },
   { path: "/Review", name: "Review", icon: MessageCircle },
   { path: "/about", name: "About", icon: Info },
