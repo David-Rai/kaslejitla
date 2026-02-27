@@ -1,14 +1,26 @@
 import { votes,voteMap } from "../memoryDB/votes.js";
 let io_instance = null; //Holdoes IO instance
 let vote_buffer = {};
+let activeUsers = 6;
 
 export const handleSocket = (io) => {
   io_instance = io;
   io.on("connection", (client) => {
+      activeUsers++;
     //******On New vote*******
     client.on("increase-vote", ({ id }) => {
       vote_buffer[id] = (vote_buffer[id] || 0) + 1; //updating on buffer
     });
+
+    io.emit("active-users", activeUsers);
+
+  client.on("disconnect", () => {
+    activeUsers--;
+    // console.log("User disconnected:", socket.id, "Active users:", activeUsers);
+    io.emit("active-users", activeUsers);
+  });
+
+  
   });
 };
 

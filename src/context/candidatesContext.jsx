@@ -9,6 +9,7 @@ export const CandidateProvider = ({ children }) => {
   const [candidates, setCandidates] = useState([]);
   const socket = useSocket();
   const channelRef = useRef(null);
+  const [activeUsers, setActiveUsers] = useState(0);
   const [loading, setLoading] = useState(false);
   const clientVoteBuffer = useRef({});
 
@@ -35,8 +36,8 @@ export const CandidateProvider = ({ children }) => {
     if (!socket) return;
 
     const handleNewVote = (updates) => {
-      const reconciled={...updates}
-      
+      const reconciled = { ...updates };
+
       // console.log("updates", reconciled);
       // console.log("buffer", clientVoteBuffer.current);
 
@@ -59,8 +60,13 @@ export const CandidateProvider = ({ children }) => {
     };
 
     socket.on("new-vote", handleNewVote);
+    // Listen for active users from server
+    socket.on("active-users", (count) => {
+      setActiveUsers(count);
+    });
 
     return () => {
+      socket.off("active-users");
       socket.off("new-vote", handleNewVote); // remove only this handler
     };
   }, [socket]);
@@ -74,6 +80,7 @@ export const CandidateProvider = ({ children }) => {
         channelRef,
         clientVoteBuffer,
         fetchCandidates,
+        activeUsers
       }}
     >
       {children}

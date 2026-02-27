@@ -19,7 +19,7 @@ const Home = () => {
   const [play] = useSound(bellsound);
   const socket = useSocket();
   const lastVoteTime = useRef({});
-  const { candidates, loading, setCandidates, clientVoteBuffer } =
+  const { candidates, loading, setCandidates, clientVoteBuffer, activeUsers } =
     useCandidates();
   const [disable, setDisable] = useState(false);
   const [isSound, SetIsSound] = useState(true);
@@ -126,18 +126,10 @@ const Home = () => {
 
         {/* Header */}
         <div style={{ padding: "32px 20px 16px" }}>
-          <p
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "red",
-              marginBottom: 6,
-            }}
-          >
-            Live Poll
-          </p>
+          <div className="flex items-center gap-2 mb-1 text-red-600 font-semibold text-xs uppercase tracking-wider">
+            <span>Live Users</span>
+            <span className="text-lg">{activeUsers}</span>
+          </div>
           <h1
             className="text-[26px] font-semibold text-[#111827] m-o"
             style={{
@@ -161,7 +153,7 @@ const Home = () => {
             padding: "0 16px",
           }}
         >
-<PromotionBanner />
+          <PromotionBanner />
 
           {sorted_candidates.map((candidate, index) => {
             const rankLabel =
@@ -222,15 +214,13 @@ const Home = () => {
               </div>
             );
           })}
-<PromotionBanner />
-
+          <PromotionBanner />
         </div>
 
         <ToastContainer
           position="bottom-center"
           toastStyle={{ fontFamily: "'DM Sans', sans-serif", borderRadius: 12 }}
         />
-
       </main>
     </>
   );
