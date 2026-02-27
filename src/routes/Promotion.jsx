@@ -7,7 +7,6 @@ import {
   Clock,
   Star,
   Zap,
-  MessageCircle,
   ChevronRight,
   Eye,
   BarChart2,
@@ -15,7 +14,6 @@ import {
   Building2,
   Rocket,
   Instagram,
-  Phone,
   Copy,
   Check,
   ExternalLink,
@@ -45,11 +43,15 @@ const content = {
     socialMedia: "Social Accounts",
     socialMediaDesc: "Grow your Instagram, TikTok, YouTube & more",
     cta: "Get Promoted Today",
-    ctaDesc: "Contact us on WhatsApp to get started",
-    whatsappBtn: "Chat on WhatsApp",
+    ctaDesc: "Reach out on Instagram or TikTok to get started",
     viral: "Going Viral",
     viralDesc: "Already hitting 1 million views on TikTok and counting.",
     footerNote: "One-day promotion slot. Limited availability.",
+    contactLabel: "Contact",
+    instaBtn: "DM on Instagram",
+    tiktokBtn: "Follow on TikTok",
+    copyInsta: "Copy",
+    copied: "Copied!",
   },
   np: {
     badge: "🔥 TikTok मा १M+ भ्यूज",
@@ -57,7 +59,7 @@ const content = {
     subheadline: "पूरा एक दिनको लागि",
     description:
       "हामी तपाईंको व्यवसाय, स्टार्टअप, वा सोशल मिडिया अकाउन्ट हजारौं सक्रिय दर्शकहरूसमक्ष पुर्‍याउँछौं।",
-    stat1:"१०K+",
+    stat1: "१०K+",
     stat1Label: "दैनिक भ्यूज",
     stat2: "१M+",
     stat2Label: "TikTok भ्यूज",
@@ -74,26 +76,35 @@ const content = {
     socialMedia: "सोशल अकाउन्टहरू",
     socialMediaDesc: "Instagram, TikTok, YouTube र थप बढाउनुहोस्",
     cta: "आज नै प्रमोट गर्नुहोस्",
-    ctaDesc: "सुरु गर्न WhatsApp मा सम्पर्क गर्नुहोस्",
-    whatsappBtn: "WhatsApp मा कुराकानी गर्नुहोस्",
+    ctaDesc: "Instagram वा TikTok मा सम्पर्क गर्नुहोस्",
     viral: "भाइरल भइरहेको छ",
     viralDesc: "TikTok मा पहिले नै १ मिलियन भ्यूज पुगिसकेको छ।",
     footerNote: "एक दिनको प्रमोशन स्लट। सीमित उपलब्धता।",
+    contactLabel: "सम्पर्क",
+    instaBtn: "Instagram मा DM गर्नुहोस्",
+    tiktokBtn: "TikTok मा Follow गर्नुहोस्",
+    copyInsta: "कपी",
+    copied: "कपी भयो!",
   },
 };
 
-const PHONE = "9824073993";
+const INSTA_ID = "@davidrai119";
+const instaUrl = "https://www.instagram.com/davidrai119/";
+const tiktokUrl = "https://www.tiktok.com/@davidrai08";
+
+const TikTokIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.8a4.85 4.85 0 01-1.06-.11z" />
+  </svg>
+);
 
 const Promotion = () => {
   const [lang, setLang] = useState("en");
   const [copied, setCopied] = useState(false);
   const t = content[lang];
 
-  const whatsappUrl = `https://wa.me/977${PHONE}`;
-  const tiktokUrl = "https://www.tiktok.com/@davidrai08";
-
   const handleCopy = () => {
-    navigator.clipboard.writeText(PHONE);
+    navigator.clipboard.writeText(INSTA_ID);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -117,9 +128,7 @@ const Promotion = () => {
           <button
             onClick={() => setLang("en")}
             className={`px-3 py-1 rounded-full transition-all ${
-              lang === "en"
-                ? "bg-red-600 text-white shadow"
-                : "text-gray-500 hover:text-gray-800"
+              lang === "en" ? "bg-red-600 text-white shadow" : "text-gray-500 hover:text-gray-800"
             }`}
           >
             EN
@@ -127,9 +136,7 @@ const Promotion = () => {
           <button
             onClick={() => setLang("np")}
             className={`px-3 py-1 rounded-full transition-all ${
-              lang === "np"
-                ? "bg-red-600 text-white shadow"
-                : "text-gray-500 hover:text-gray-800"
+              lang === "np" ? "bg-red-600 text-white shadow" : "text-gray-500 hover:text-gray-800"
             }`}
           >
             नेपाली
@@ -147,7 +154,7 @@ const Promotion = () => {
           </span>
         </div>
 
-        {/* Main Headline */}
+        {/* Headline */}
         <div className="text-center mb-6">
           <h1 className="text-4xl font-black text-gray-900 leading-tight tracking-tight">
             {t.headline}
@@ -167,10 +174,7 @@ const Promotion = () => {
             { icon: <Flame size={18} />, val: t.stat2, label: t.stat2Label },
             { icon: <BarChart2 size={18} />, val: t.stat3, label: t.stat3Label },
           ].map((s, i) => (
-            <div
-              key={i}
-              className="bg-white border border-gray-100 rounded-2xl p-3 text-center shadow-sm"
-            >
+            <div key={i} className="bg-white border border-gray-100 rounded-2xl p-3 text-center shadow-sm">
               <div className="flex justify-center text-red-500 mb-1">{s.icon}</div>
               <div className="text-2xl font-black text-gray-900">{s.val}</div>
               <div className="text-xs text-gray-400 font-medium mt-0.5">{s.label}</div>
@@ -179,40 +183,35 @@ const Promotion = () => {
         </div>
 
         {/* Contact Card */}
-        <div className="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Contact</p>
-          {/* Phone number row */}
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <div className="bg-red-100 rounded-lg p-1.5">
-                <Phone size={15} className="text-red-600" />
-              </div>
-              <span className="text-gray-900 font-bold tracking-wide text-sm">{PHONE}</span>
-            </div>
-            <button
-              onClick={handleCopy}
-              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all ${
-                copied
-                  ? "bg-green-100 text-green-600"
-                  : "bg-white border border-gray-200 text-gray-500 hover:border-red-300 hover:text-red-600"
-              }`}
+ {/* Bottom CTA */}
+      <section className="px-4 pb-4">
+        <div className="bg-red-600 rounded-2xl p-6 text-center shadow-lg">
+          <h3 className="text-white font-black text-xl mb-1">{t.cta}</h3>
+          <p className="text-red-100 text-sm mb-4">{t.ctaDesc}</p>
+          <div className="flex flex-col gap-3">
+            <a
+              href={instaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white text-red-600 font-bold px-6 py-3 rounded-xl text-sm shadow transition-opacity hover:opacity-90"
             >
-              {copied ? <Check size={13} /> : <Copy size={13} />}
-              {copied ? "Copied!" : "Copy"}
-            </button>
+              <Instagram size={17} />
+              {t.instaBtn}
+            </a>
+            <a
+              href={tiktokUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-red-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-opacity hover:opacity-90"
+            >
+              <TikTokIcon size={16} />
+              {t.tiktokBtn}
+              <ExternalLink size={14} />
+            </a>
           </div>
-          {/* WhatsApp button */}
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl text-sm shadow transition-colors"
-          >
-            <MessageCircle size={18} />
-            {t.whatsappBtn}
-            <ChevronRight size={16} />
-          </a>
         </div>
+      </section>
+
         <p className="text-center text-xs text-gray-400">{t.footerNote}</p>
       </section>
 
@@ -240,26 +239,11 @@ const Promotion = () => {
         </h3>
         <div className="flex flex-col gap-3">
           {[
-            {
-              icon: <Building2 size={20} className="text-red-600" />,
-              title: t.businesses,
-              desc: t.businessDesc,
-            },
-            {
-              icon: <Rocket size={20} className="text-red-600" />,
-              title: t.startups,
-              desc: t.startupDesc,
-            },
-            {
-              icon: <Instagram size={20} className="text-red-600" />,
-              title: t.socialMedia,
-              desc: t.socialMediaDesc,
-            },
+            { icon: <Building2 size={20} className="text-red-600" />, title: t.businesses, desc: t.businessDesc },
+            { icon: <Rocket size={20} className="text-red-600" />, title: t.startups, desc: t.startupDesc },
+            { icon: <Instagram size={20} className="text-red-600" />, title: t.socialMedia, desc: t.socialMediaDesc },
           ].map((item, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm"
-            >
+            <div key={i} className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
               <div className="bg-red-50 rounded-xl p-2.5 shrink-0">{item.icon}</div>
               <div>
                 <div className="font-bold text-gray-900 text-sm">{item.title}</div>
@@ -289,9 +273,7 @@ const Promotion = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 mt-2.5 text-xs font-bold bg-white text-gray-900 px-3 py-1.5 rounded-lg hover:opacity-90 transition-opacity"
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.8a4.85 4.85 0 01-1.06-.11z"/>
-              </svg>
+              <TikTokIcon size={13} />
               @davidrai08
               <ExternalLink size={11} />
             </a>
@@ -308,10 +290,7 @@ const Promotion = () => {
             { icon: <Star size={18} />, label: "Quality Reach" },
             { icon: <Flame size={18} />, label: "Viral Content" },
           ].map((item, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3"
-            >
+            <div key={i} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <span className="text-red-500">{item.icon}</span>
               <span className="text-sm font-semibold text-gray-700">{item.label}</span>
             </div>
@@ -326,13 +305,13 @@ const Promotion = () => {
           <p className="text-red-100 text-sm mb-4">{t.ctaDesc}</p>
           <div className="flex flex-col gap-3">
             <a
-              href={whatsappUrl}
+              href={instaUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white text-red-600 font-bold px-6 py-3 rounded-xl text-sm shadow transition-opacity hover:opacity-90"
             >
-              <MessageCircle size={18} />
-              {t.whatsappBtn}
+              <Instagram size={17} />
+              {t.instaBtn}
             </a>
             <a
               href={tiktokUrl}
@@ -340,10 +319,8 @@ const Promotion = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-red-700 text-white font-bold px-6 py-3 rounded-xl text-sm transition-opacity hover:opacity-90"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.8a4.85 4.85 0 01-1.06-.11z"/>
-              </svg>
-              Follow @davidrai08 on TikTok
+              <TikTokIcon size={16} />
+              {t.tiktokBtn}
               <ExternalLink size={14} />
             </a>
           </div>

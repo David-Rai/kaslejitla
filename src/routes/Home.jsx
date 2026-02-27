@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import PromotionBanner from "../components/PromotionBanner";
 import Loader from "../components/Loader";
 import useSound from "use-sound";
 import bellsound from "../assets/bellsound.mp3";
@@ -160,6 +161,8 @@ const Home = () => {
             padding: "0 16px",
           }}
         >
+<PromotionBanner />
+
           {sorted_candidates.map((candidate, index) => {
             const rankLabel =
               index === 0
@@ -219,12 +222,15 @@ const Home = () => {
               </div>
             );
           })}
+<PromotionBanner />
+
         </div>
 
         <ToastContainer
           position="bottom-center"
           toastStyle={{ fontFamily: "'DM Sans', sans-serif", borderRadius: 12 }}
         />
+
       </main>
     </>
   );
