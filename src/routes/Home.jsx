@@ -4,10 +4,14 @@ import Loader from "../components/Loader";
 import useSound from "use-sound";
 import bellsound from "../assets/bellsound.mp3";
 import { usePostHog } from "@posthog/react";
+import soil from "../assets/soil2.png";
+import cpn from "../assets/cpn2.png";
 import { useCandidates } from "../context/candidatesContext";
 import Nav from "../components/Nav";
 import "react-toastify/dist/ReactToastify.css";
 import { useSocket } from "../context/socketContext";
+
+let particleId = 0;
 
 const Home = () => {
   const posthog = usePostHog();
@@ -17,24 +21,26 @@ const Home = () => {
   const { candidates, loading, setCandidates, clientVoteBuffer } =
     useCandidates();
   const [disable, setDisable] = useState(false);
-  const [isSound,SetIsSound]=useState(true)
+  const [isSound, SetIsSound] = useState(true);
+  const [emojis, setEmojis] = useState([]);
+  // 7 emojis
+  const emojiList = [
+    "🌳",
+    "🔔",
+    "☀️",
+    <img src={soil} className="h-[30px]" />,
+    <img src={cpn} className="h-[30px]" />,
+    "💡",
+    "🔼",
+  ];
 
   // ===On click of vote now button===
   const handleClick = async ({ id }) => {
     posthog.capture("vote", { votefor: id });
-    // clientVoteBuffer.current[id]=(clientVoteBuffer.current[id] || 0) + 1
-
-    // // Optimistic update (optional)
-    // setCandidates((prev) =>
-    //   prev.map((p) =>
-    //     p.id === id ? { ...p, vote_count: p.vote_count + 1 } : p,
-    //   ),
-    // );
 
     //Throttling with Socket emitting
     const now = Date.now();
     if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 200) {
-      // console.log(lastVoteTime.current[id] - now)
       return setDisable(true);
     }
     lastVoteTime.current[id] = now;
@@ -43,8 +49,24 @@ const Home = () => {
     if (id === 2 && isSound) {
       play();
     }
+
+    // Spawn emoji rain for this candidate (id maps to emojiList index)
+    const emoji = emojiList[(id - 1) % emojiList.length];
+    const newParticles = Array.from({ length: 4 }, () => ({
+      key: particleId++,
+      emoji,
+      left: Math.random() * 80 + 10,
+      duration: 500 + Math.random() * 800,
+      size: 22 + Math.random() * 18,
+    }));
+    setEmojis((prev) => [...prev, ...newParticles]);
+
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
+  };
+
+  const removeEmoji = (key) => {
+    setEmojis((prev) => prev.filter((e) => e.key !== key));
   };
 
   // asc order candidates
@@ -61,6 +83,33 @@ const Home = () => {
 
   return (
     <>
+      <style>{`
+        @keyframes emoji-fall {
+          0%   { transform: translateY(0) scale(1); opacity: 1; }
+          70%  { opacity: 1; }
+          100% { transform: translateY(100vh) scale(0.7); opacity: 0; }
+        }
+      `}</style>
+
+      {/* Emoji particles */}
+      {emojis.map((p) => (
+        <span
+          key={p.key}
+          onAnimationEnd={() => removeEmoji(p.key)}
+          style={{
+            position: "fixed",
+            top: -50,
+            left: `${p.left}%`,
+            fontSize: p.size,
+            pointerEvents: "none",
+            zIndex: 9999,
+            animation: `emoji-fall ${p.duration}ms ease-in forwards`,
+          }}
+        >
+          {p.emoji}
+        </span>
+      ))}
+
       <main
         className="home-root"
         style={{
@@ -77,7 +126,6 @@ const Home = () => {
         {/* Header */}
         <div style={{ padding: "32px 20px 16px" }}>
           <p
-            // className="text-[12px] font-bold leading-[0.1em] uppercase text-[red] mb-[6]"
             style={{
               fontSize: 12,
               fontWeight: 600,
@@ -101,7 +149,6 @@ const Home = () => {
             ⚠️ This is an unofficial public poll for entertainment purposes
             only.
           </p>
-          {/* <p className="text-sm text-red-400">No autoclicker la sathy haru</p> */}
         </div>
 
         {/* Candidates rendering */}
@@ -137,7 +184,6 @@ const Home = () => {
             return (
               <div
                 key={candidate.id}
-                // onClick={play}
                 disabled={disable}
                 onClick={() => handleClick(candidate)}
                 className="candidate-card select-none"
