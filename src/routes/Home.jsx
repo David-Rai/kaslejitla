@@ -16,6 +16,7 @@ const Home = () => {
   const lastVoteTime = useRef({});
   const { candidates, loading, setCandidates, clientVoteBuffer } =
     useCandidates();
+  const [disable, setDisable] = useState(false);
 
   // ===On click of vote now button===
   const handleClick = async ({ id }) => {
@@ -33,12 +34,12 @@ const Home = () => {
     const now = Date.now();
     if (lastVoteTime.current[id] && now - lastVoteTime.current[id] < 500) {
       // console.log(lastVoteTime.current[id] - now)
-      return;
+      return setDisable(true);
     }
 
     play();
     lastVoteTime.current[id] = now;
-
+    setDisable(false);
     // Broadcast new vote into server
     socket.emit("increase-vote", { id });
   };
@@ -144,6 +145,7 @@ const Home = () => {
               <div
                 key={candidate.id}
                 // onClick={play}
+                disabled={disable}
                 onClick={() => handleClick(candidate)}
                 className="candidate-card select-none"
               >
