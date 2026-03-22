@@ -2,11 +2,8 @@
 
 Made for fun with my friends with in 24-hours , within college session.
 
----
-
 [live here](https://kaslejitla.pages.dev)
 
----
 
 # Stats
 
@@ -14,7 +11,6 @@ Made for fun with my friends with in 24-hours , within college session.
 - 12k overally pages views
 - 5k Daily active users at that time
 
----
 
 ## Site design
 <img src='./design/home.png'>
