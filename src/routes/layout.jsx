@@ -34,14 +34,14 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 relative flex justify-center">
-        <SidePanel side="left" />
+        {/* <SidePanel side="left" /> */}
 
         {/* Main content */}
         <div className="w-full max-w-[640px]">
           <Outlet />
         </div>
 
-        <SidePanel side="right" />
+        {/* <SidePanel side="right" /> */}
       </div>
     </div>
   );

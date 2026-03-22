@@ -6,7 +6,7 @@ import {Banknote} from 'lucide-react'
 
 const links = [
   { path: "/", name: "Home", icon: Home },
-  { path: "/promotion", name: "Promotion", icon: Banknote },
+  // { path: "/promotion", name: "Promotion", icon: Banknote },
   // { path: "/opinions", name: "Opinions", icon: MessageCircle },
   { path: "/Review", name: "Review", icon: MessageCircle },
   { path: "/about", name: "About", icon: Info },

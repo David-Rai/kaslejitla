@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { votes } from "../data/clientside_votes";
 import { createContext, useContext, useEffect, useState } from "react";
 import { server_url } from "../config/server_url";
 import { useSocket } from "./socketContext";
@@ -15,7 +16,9 @@ export const CandidateProvider = ({ children }) => {
 
   //Fetching initial candidates
   const fetchCandidates = async () => {
-    setLoading(true);
+    // setLoading(true);
+
+    return setCandidates(votes);
     try {
       const res = await fetch(`${server_url}`);
       const data = await res.json();
@@ -80,7 +83,7 @@ export const CandidateProvider = ({ children }) => {
         channelRef,
         clientVoteBuffer,
         fetchCandidates,
-        activeUsers
+        activeUsers,
       }}
     >
       {children}

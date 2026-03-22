@@ -8,6 +8,7 @@ import { usePostHog } from "@posthog/react";
 import soil from "../assets/soil2.png";
 import cpn from "../assets/cpn2.png";
 import { useCandidates } from "../context/candidatesContext";
+import { votes } from "../data/clientside_votes";
 import Nav from "../components/Nav";
 import "react-toastify/dist/ReactToastify.css";
 import { useSocket } from "../context/socketContext";
@@ -37,6 +38,8 @@ const Home = () => {
 
   // ===On click of vote now button===
   const handleClick = async ({ id }) => {
+    //stoping to take votes now
+    return alert("Sorry mate voting has been ended");
     posthog.capture("vote", { votefor: id });
 
     //Throttling with Socket emitting
@@ -136,7 +139,8 @@ const Home = () => {
               lineHeight: 1.3,
             }}
           >
-            Who do you love? fun poll
+            {/* Who do you love? fun poll */}
+            Live voting has been ended(2082)
           </h1>
           <p className="text-[14px] text-[#9ca3af] mt-[6px] font-light">
             ⚠️ This is an unofficial public poll for entertainment purposes
@@ -153,7 +157,7 @@ const Home = () => {
             padding: "0 16px",
           }}
         >
-          <PromotionBanner />
+          {/* <PromotionBanner /> */}
 
           {sorted_candidates.map((candidate, index) => {
             const rankLabel =
@@ -214,7 +218,7 @@ const Home = () => {
               </div>
             );
           })}
-          <PromotionBanner />
+          {/* <PromotionBanner /> */}
         </div>
 
         <ToastContainer
