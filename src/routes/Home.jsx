@@ -129,10 +129,10 @@ const Home = () => {
 
         {/* Header */}
         <div style={{ padding: "32px 20px 16px" }}>
-          <div className="flex items-center gap-2 mb-1 text-red-600 font-semibold text-xs uppercase tracking-wider">
+          {/* <div className="flex items-center gap-2 mb-1 text-red-600 font-semibold text-xs uppercase tracking-wider">
             <span>Live Users</span>
             <span className="text-lg">{activeUsers}</span>
-          </div>
+          </div> */}
           <h1
             className="text-[26px] font-semibold text-[#111827] m-o"
             style={{
